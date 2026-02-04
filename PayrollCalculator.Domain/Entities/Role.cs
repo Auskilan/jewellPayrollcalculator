@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace PayrollCalculator.Domain.Entities
 {
-    internal class Role
+     public class Role
     {
+        public int RoleId { get; set; }
+        public string RoleName { get; set; } = string.Empty;
+
+        // Navigation
+        public ICollection<UserRole> UserRoles { get; set; }
     }
 }

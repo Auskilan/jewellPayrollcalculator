@@ -9,9 +9,21 @@ namespace PayrollCalculator.Domain.Entities
     public class User
     {
         public int UserId { get; set; }
-        public int TenantId { get; set; }
-        public string Email { get; set; } = string.Empty;
-        public string PasswordHash { get; set; } = string.Empty;
+
+        public int TenantId { get; set; }   // FK
+
+        public string Email { get; set; }
+        public string PhoneNumber { get; set; }
+
+        public string PasswordHash { get; set; }
+
         public bool IsActive { get; set; }
+        public DateTime CreatedAt { get; set; }
+
+        // Navigation
+        public Tenant Tenant { get; set; }
+        public ICollection<UserRole> UserRoles { get; set; }
+        public ICollection<AdminBranchMapping> AdminBranchMappings { get; set; }
+        public ICollection<RefreshToken> RefreshTokens { get; set; }
     }
 }
