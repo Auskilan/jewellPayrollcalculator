@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PayrollCalculator.Application.UseCases.Employee;
+using PayrollCalculator.Application.Interfaces.Repositories;
 using PayrollCalculator.Domain.Entities;
 
 namespace payrollcalculator.Api.Controllers
@@ -8,17 +8,17 @@ namespace payrollcalculator.Api.Controllers
     [Route("api/employees")]
     public class EmployeeController : ControllerBase
     {
-        private readonly CreateEmployeeUseCase _useCase;
+        private readonly IEmployeeRepository _employeeRepository;
 
-        public EmployeeController(CreateEmployeeUseCase useCase)
+        public EmployeeController(IEmployeeRepository employeeRepository)
         {
-            _useCase = useCase;
+            _employeeRepository = employeeRepository;
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(Employee employee)
         {
-            await _useCase.Execute(employee);
+            await _employeeRepository.AddAsync(employee);
             return Ok();
         }
     }
