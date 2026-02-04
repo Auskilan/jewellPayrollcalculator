@@ -6,15 +6,17 @@ using System.Threading.Tasks;
 
 namespace PayrollCalculator.Domain.Entities
 {
-    public class AdminBranchMapping
+    public class RefreshToken
     {
+        public int RefreshTokenId { get; set; }
+
         public int UserId { get; set; }
-        public int BranchId { get; set; }
 
-        public bool IsPrimary { get; set; }
+        public string Token { get; set; }
+        public DateTime ExpiryDate { get; set; }
 
-        // Navigation
+        public bool IsRevoked { get; set; }
+
         public User User { get; set; }
-        public Branch Branch { get; set; }
     }
 }

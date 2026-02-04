@@ -12,5 +12,10 @@ namespace PayrollCalculator.Domain.Entities
         public string TenantName { get; set; } = string.Empty;
         public string SubDomain { get; set; } = string.Empty;
         public bool IsActive { get; set; }
+        public DateTime CreatedAt { get; set; }
+
+        // Navigation
+        public ICollection<Branch> Branches { get; set; }
+        public ICollection<User> Users { get; set; }
     }
 }
