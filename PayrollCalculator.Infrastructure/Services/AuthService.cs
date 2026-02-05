@@ -63,17 +63,19 @@ namespace PayrollCalculator.Infrastructure.Services
                     );
                 }
 
-                var tenant = await _tenantRepo.AddAsync(new Tenant
+                var tenant = await _tenantRepo.CreateAsync(new Tenant
                 {
+                    OrganizationId = null, // Will be set when shop details are provided
                     TenantName = request.TenantName,
                     SubDomain = request.SubDomain,
                     IsActive = true,
                     CreatedAt = DateTime.UtcNow
                 });
 
-                var branch = await _branchRepo.AddAsync(new Branch
+                var branch = await _branchRepo.CreateAsync(new Branch
                 {
                     TenantId = tenant.TenantId,
+                    OrganizationId = null, // Will be set when shop details are provided
                     BranchName = request.BranchName,
                     IsHeadOffice = true,
                     Isactive = true
