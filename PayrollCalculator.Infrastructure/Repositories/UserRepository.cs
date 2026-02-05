@@ -1,4 +1,5 @@
-﻿using PayrollCalculator.Application.Interfaces.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using PayrollCalculator.Application.Interfaces.Repositories;
 using PayrollCalculator.Domain.Entities;
 using PayrollCalculator.Infrastructure.Persistence;
 using System;
@@ -32,6 +33,16 @@ namespace PayrollCalculator.Infrastructure.Repositories
         {
             var user = _context.Users.FirstOrDefault(u => u.Email == email);
             return await Task.FromResult(user);
+        }
+
+        public async Task UpdatePasswordAsync(string email, string newPasswordHash)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            if (user != null)
+            {
+                user.PasswordHash = newPasswordHash;
+                await _context.SaveChangesAsync();
+            }
         }
     }
 
