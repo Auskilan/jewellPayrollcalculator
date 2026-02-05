@@ -1,14 +1,11 @@
 ﻿using PayrollCalculator.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PayrollCalculator.Application.Interfaces.Repositories
 {
     public interface IBranchRepository
     {
-        Task<Branch> AddAsync(Branch branch);
+        Task<Branch> CreateAsync(Branch branch);
+        Task<Branch?> GetByTenantIdAsync(int tenantId);
+        Task<Branch> UpdateAsync(Branch branch);
     }
 }

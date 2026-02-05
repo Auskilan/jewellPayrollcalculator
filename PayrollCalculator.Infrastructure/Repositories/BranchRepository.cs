@@ -1,11 +1,7 @@
-﻿using PayrollCalculator.Application.Interfaces.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using PayrollCalculator.Application.Interfaces.Repositories;
 using PayrollCalculator.Domain.Entities;
 using PayrollCalculator.Infrastructure.Persistence;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PayrollCalculator.Infrastructure.Repositories
 {
@@ -18,9 +14,22 @@ namespace PayrollCalculator.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<Branch> AddAsync(Branch branch)
+        public async Task<Branch> CreateAsync(Branch branch)
         {
             _context.Branches.Add(branch);
+            await _context.SaveChangesAsync();
+            return branch;
+        }
+
+        public async Task<Branch?> GetByTenantIdAsync(int tenantId)
+        {
+            return await _context.Branches
+                .FirstOrDefaultAsync(b => b.TenantId == tenantId && b.IsHeadOffice);
+        }
+
+        public async Task<Branch> UpdateAsync(Branch branch)
+        {
+            _context.Branches.Update(branch);
             await _context.SaveChangesAsync();
             return branch;
         }

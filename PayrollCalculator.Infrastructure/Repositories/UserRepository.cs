@@ -35,6 +35,20 @@ namespace PayrollCalculator.Infrastructure.Repositories
             return await Task.FromResult(user);
         }
 
+        public async Task<User?> GetByIdAsync(int userId)
+        {
+            return await _context.Users
+                .Include(u => u.Tenant)
+                .FirstOrDefaultAsync(u => u.UserId == userId);
+        }
+
+        public async Task<User> UpdateAsync(User user)
+        {
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+            return user;
+        }
+
         public async Task UpdatePasswordAsync(string email, string newPasswordHash)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);

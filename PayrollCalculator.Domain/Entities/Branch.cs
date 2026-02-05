@@ -10,25 +10,23 @@ namespace PayrollCalculator.Domain.Entities
     {
         public int BranchId { get; set; }
         public int TenantId { get; set; }
+        public Guid? OrganizationId { get; set; }
 
         public string BranchName { get; set; } = string.Empty;
 
         public bool IsHeadOffice { get; set; }
         public bool Isactive { get; set; }
 
-        // NEW COLUMNS
-        public string? ShopName { get; set; }
-        public string? GstNumber { get; set; }
-        public string? Address { get; set; }
-        public string? City { get; set; }
-        public string? State { get; set; }
-        public string? Pincode { get; set; }
+        // Contact information (non-address fields)
+        public string? ContactNumber { get; set; }
+        public string? Email { get; set; }
 
-        public bool IsCompleted { get; set; }   // ⭐
+        public bool IsCompleted { get; set; }
 
         // Navigation
-        public Tenant Tenant { get; set; }
-        public ICollection<AdminBranchMapping> AdminBranchMappings { get; set; }
+        public Tenant Tenant { get; set; } = null!;
+        public Organization? Organization { get; set; }
+        public ICollection<AdminBranchMapping> AdminBranchMappings { get; set; } = null!;
+        public ICollection<BranchAddress> BranchAddresses { get; set; } = new List<BranchAddress>();
     }
-
 }
