@@ -1,0 +1,17 @@
+### Setup Shop Details
+POST https://localhost:5001/api/shop/setup
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "shopName": "My Test Shop",
+  "address": "123 Main Street, Downtown",
+  "city": "Mumbai",
+  "state": "Maharashtra",
+  "pincode": "400001",
+  "phoneNumber": "9876543210"
+}
+
+### Check Setup Status
+GET https://localhost:5001/api/shop/setup-status
+Authorization: Bearer {{token}}

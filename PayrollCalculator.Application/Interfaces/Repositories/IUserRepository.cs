@@ -12,6 +12,8 @@ namespace PayrollCalculator.Application.Interfaces.Repositories
         Task<User> AddAsync(User user);
         Task<bool> EmailExistsAsync(string email);
         Task <User?> GetByEmailAsync(string email);
+        Task<User?> GetByIdAsync(int userId);
+        Task<User> UpdateAsync(User user);
         Task UpdatePasswordAsync(string email, string newPasswordHash);
     }
 }

@@ -18,8 +18,11 @@ namespace PayrollCalculator.Infrastructure.Persistence
 
         public DbSet<Employee> Employees => Set<Employee>();
 
+        public DbSet<Organization> Organizations { get; set; }
         public DbSet<Tenant> Tenants { get; set; }
         public DbSet<Branch> Branches { get; set; }
+        public DbSet<Address> Addresses { get; set; }
+        public DbSet<BranchAddress> BranchAddresses { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
@@ -31,11 +34,46 @@ namespace PayrollCalculator.Infrastructure.Persistence
         {
             base.OnModelCreating(modelBuilder);
 
+            // Organization → Tenant (1 - Many) - Optional initially
+            modelBuilder.Entity<Tenant>()
+                .HasOne(t => t.Organization)
+                .WithMany(o => o.Tenants)
+                .HasForeignKey(t => t.OrganizationId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Organization → Branch (1 - Many) - Optional initially
+            modelBuilder.Entity<Branch>()
+                .HasOne(b => b.Organization)
+                .WithMany(o => o.Branches)
+                .HasForeignKey(b => b.OrganizationId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             // Tenant → Branch (1 - Many)
             modelBuilder.Entity<Branch>()
                 .HasOne(b => b.Tenant)
                 .WithMany(t => t.Branches)
                 .HasForeignKey(b => b.TenantId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Branch → BranchAddress (1 - Many)
+            modelBuilder.Entity<BranchAddress>()
+                .HasOne(ba => ba.Branch)
+                .WithMany(b => b.BranchAddresses)
+                .HasForeignKey(ba => ba.BranchId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Address → BranchAddress (1 - Many)
+            modelBuilder.Entity<BranchAddress>()
+                .HasOne(ba => ba.Address)
+                .WithMany(a => a.BranchAddresses)
+                .HasForeignKey(ba => ba.AddressId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Organization → BranchAddress (1 - Many)
+            modelBuilder.Entity<BranchAddress>()
+                .HasOne(ba => ba.Organization)
+                .WithMany(o => o.BranchAddresses)
+                .HasForeignKey(ba => ba.OrganizationId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             // Tenant → User (1 - Many)
