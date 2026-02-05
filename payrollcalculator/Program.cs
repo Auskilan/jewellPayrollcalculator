@@ -39,12 +39,14 @@ builder.Services.AddInfrastructure();
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 builder.Services.AddScoped<ITenantRepository, TenantRepository>();
 builder.Services.AddScoped<IBranchRepository, BranchRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserRoleRepository, UserRoleRepository>();
 builder.Services.AddScoped<IAdminBranchMappingRepository, AdminBranchMappingRepository>();
+builder.Services.AddScoped<IPasswordResetOtpRepository, PasswordResetOtpRepository>();
 
 
 var app = builder.Build();
