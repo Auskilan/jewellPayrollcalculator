@@ -25,6 +25,7 @@ namespace PayrollCalculator.Infrastructure.Persistence
         public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<AdminBranchMapping> AdminBranchMappings { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
+        public DbSet<PasswordResetOtp> PasswordResetOtps { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -82,6 +83,20 @@ namespace PayrollCalculator.Infrastructure.Persistence
                 .WithMany(u => u.RefreshTokens)
                 .HasForeignKey(rt => rt.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            // PasswordResetOtp configuration
+            modelBuilder.Entity<PasswordResetOtp>()
+                .HasKey(p => p.OtpId);
+
+            modelBuilder.Entity<PasswordResetOtp>()
+                .Property(p => p.Email)
+                .IsRequired()
+                .HasMaxLength(255);
+
+            modelBuilder.Entity<PasswordResetOtp>()
+                .Property(p => p.OtpCode)
+                .IsRequired()
+                .HasMaxLength(6);
 
             // data seeding for Roles
 
